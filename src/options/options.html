@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>设置 - X推文收藏助手</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>设置</h1>
+      <p class="subtitle">配置AI API以生成日报</p>
+    </header>
+
+    <main class="main">
+      <form id="settingsForm" class="settings-form">
+        <!-- API Endpoint -->
+        <div class="form-group">
+          <label for="apiEndpoint" class="form-label">
+            API Endpoint
+            <span class="tooltip" title="API的完整URL地址">?</span>
+          </label>
+          <input
+            type="url"
+            id="apiEndpoint"
+            name="apiEndpoint"
+            class="form-input"
+            placeholder="https://api.openai.com/v1/chat/completions"
+            required
+          >
+          <p class="form-hint">支持OpenAI、Anthropic或其他兼容的API端点</p>
+        </div>
+
+        <!-- API Key -->
+        <div class="form-group">
+          <label for="apiKey" class="form-label">
+            API Key
+            <span class="tooltip" title="您的API密钥">?</span>
+          </label>
+          <div class="input-with-toggle">
+            <input
+              type="password"
+              id="apiKey"
+              name="apiKey"
+              class="form-input"
+              placeholder="sk-..."
+              required
+            >
+            <button type="button" id="toggleApiKey" class="toggle-btn" title="显示/隐藏">
+              <svg class="eye-icon" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+            </button>
+          </div>
+          <p class="form-hint">您的API密钥将安全地存储在本地</p>
+        </div>
+
+        <!-- Model -->
+        <div class="form-group">
+          <label for="model" class="form-label">
+            Model
+            <span class="tooltip" title="要使用的AI模型名称">?</span>
+          </label>
+          <input
+            type="text"
+            id="model"
+            name="model"
+            class="form-input"
+            placeholder="gpt-4"
+            required
+          >
+          <p class="form-hint">例如: gpt-4, gpt-3.5-turbo, claude-3-sonnet</p>
+        </div>
+
+        <!-- System Prompt -->
+        <div class="form-group">
+          <label for="systemPrompt" class="form-label">
+            System Prompt
+            <span class="tooltip" title="自定义AI助手的系统提示词">?</span>
+          </label>
+          <textarea
+            id="systemPrompt"
+            name="systemPrompt"
+            class="form-textarea"
+            rows="4"
+            placeholder="你是一个专业的内容整理助手..."
+          ></textarea>
+          <p class="form-hint">自定义AI助手的角色和行为（可选）</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" width="16" height="16">
+              <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 10h-4v4h-2v-4H4v-2h4V7h2v4h4v2z"/>
+            </svg>
+            保存设置
+          </button>
+          <button type="button" id="testApiBtn" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" width="16" height="16">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+            测试连接
+          </button>
+        </div>
+      </form>
+
+      <!-- Presets -->
+      <section class="presets">
+        <h2 class="section-title">快速配置</h2>
+        <div class="preset-buttons">
+          <button type="button" class="preset-btn" data-preset="bigmodel">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            智谱AI
+          </button>
+          <button type="button" class="preset-btn" data-preset="openai">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            OpenAI
+          </button>
+          <button type="button" class="preset-btn" data-preset="anthropic">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            Anthropic
+          </button>
+          <button type="button" class="preset-btn" data-preset="custom">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/>
+            </svg>
+            自定义
+          </button>
+        </div>
+      </section>
+
+      <!-- Usage Info -->
+      <section class="info">
+        <h2 class="section-title">使用说明</h2>
+        <div class="info-content">
+          <p><strong>1.</strong> 获取API Key：访问对应AI服务商的开发者平台</p>
+          <p><strong>2.</strong> 填写API Endpoint和Key</p>
+          <p><strong>3.</strong> 选择要使用的模型</p>
+          <p><strong>4.</strong> 点击"测试连接"验证配置</p>
+          <p><strong>5.</strong> 保存设置后即可生成AI日报</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

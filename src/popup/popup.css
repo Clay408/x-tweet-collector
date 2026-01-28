@@ -1,0 +1,422 @@
+/* Popup Styles for X Tweet Collection Extension */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: rgb(29, 155, 240);
+  --primary-hover: rgb(26, 140, 216);
+  --bg-color: #ffffff;
+  --text-color: rgb(15, 20, 25);
+  --text-secondary: rgb(83, 100, 113);
+  --border-color: rgb(239, 243, 244);
+  --danger-color: rgb(244, 33, 46);
+  --success-color: rgb(0, 186, 124);
+}
+
+body {
+  width: 400px;
+  max-height: 600px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-color);
+  background: var(--bg-color);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: rgba(29, 155, 240, 0.1);
+  color: var(--primary-color);
+}
+
+.icon-btn svg {
+  fill: currentColor;
+}
+
+/* Main Content */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 450px;
+}
+
+.view {
+  display: block;
+}
+
+.view.hidden {
+  display: none;
+}
+
+/* Report Section */
+.report-section {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn svg {
+  fill: currentColor;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-text {
+  background: transparent;
+  color: var(--primary-color);
+  width: auto;
+}
+
+.btn-text:hover {
+  background: rgba(29, 155, 240, 0.1);
+}
+
+/* Tweet List */
+.tweet-list {
+  padding: 8px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.empty-state svg {
+  fill: var(--text-secondary);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  margin: 8px 0;
+}
+
+.hint {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* Date Group */
+.date-group {
+  margin-bottom: 16px;
+}
+
+.date-header {
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* Tweet Card */
+.tweet-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+}
+
+.tweet-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tweet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tweet-author {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.author-handle {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.tweet-time {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.tweet-content {
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.tweet-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+.tweet-link:hover {
+  color: var(--primary-color);
+}
+
+.tweet-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
+}
+
+.save-time {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: rgba(244, 33, 46, 0.1);
+  color: var(--danger-color);
+}
+
+.delete-btn svg {
+  fill: currentColor;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Report View */
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  gap: 8px;
+}
+
+.report-content {
+  padding: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.report-text {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.report-text h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 16px 0 8px 0;
+}
+
+.report-text h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 12px 0 6px 0;
+}
+
+.report-text p {
+  margin-bottom: 8px;
+}
+
+.report-text strong {
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-color);
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-overlay.hidden {
+  display: none;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-overlay p {
+  margin-top: 16px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgb(15, 20, 25);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Animations */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+/* Scrollbar */
+.main::-webkit-scrollbar,
+.report-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main::-webkit-scrollbar-track,
+.report-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main::-webkit-scrollbar-thumb,
+.report-content::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.main::-webkit-scrollbar-thumb:hover,
+.report-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}

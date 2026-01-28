@@ -1,0 +1,90 @@
+/* X.com Bookmark Button Styles */
+
+.x-bookmark-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin: 0 4px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(83, 100, 113);
+  transition: all 0.2s ease;
+  position: relative;
+  min-width: 34px;
+  min-height: 34px;
+  flex-shrink: 0;
+}
+
+.x-bookmark-btn:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+  color: rgb(29, 155, 240);
+}
+
+.x-bookmark-btn:focus {
+  outline: 2px solid rgb(29, 155, 240);
+  outline-offset: 2px;
+}
+
+.x-bookmark-btn svg {
+  fill: currentColor;
+  transition: fill 0.2s ease;
+}
+
+/* Bookmarked state */
+.x-bookmark-btn.bookmarked {
+  color: rgb(29, 155, 240);
+}
+
+.x-bookmark-btn.bookmarked svg {
+  fill: rgb(29, 155, 240);
+}
+
+/* Tooltip */
+.x-bookmark-btn::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  background-color: rgb(15, 20, 25);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.x-bookmark-btn:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Notification */
+.x-bookmark-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background-color: rgb(29, 155, 240);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10000;
+}
+
+.x-bookmark-notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
