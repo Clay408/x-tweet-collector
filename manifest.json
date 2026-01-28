@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "X推文收藏助手",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "收藏X.com推文并生成AI日报",
   "permissions": [
     "storage",
@@ -36,5 +36,21 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "commands": {
+    "open-popup": {
+      "suggested_key": {
+        "default": "Alt+Shift+X",
+        "mac": "Command+Shift+X"
+      },
+      "description": "打开收藏列表"
+    },
+    "toggle-current-tweet": {
+      "suggested_key": {
+        "default": "Alt+S",
+        "mac": "Command+S"
+      },
+      "description": "收藏/取消收藏当前推文"
+    }
   }
 }

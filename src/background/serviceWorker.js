@@ -388,6 +388,32 @@ chrome.runtime.onInstalled.addListener((details) => {
 });
 
 /**
+ * Handle keyboard shortcuts
+ */
+chrome.commands.onCommand.addListener((command) => {
+  console.log('[Commands] Received command:', command);
+
+  switch (command) {
+    case 'open-popup':
+      // Open the popup (action)
+      chrome.action.openPopup();
+      break;
+
+    case 'toggle-current-tweet':
+      // Toggle bookmark for current/hovered tweet
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0] && tabs[0].url && (tabs[0].url.includes('x.com') || tabs[0].url.includes('twitter.com'))) {
+          chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleCurrentTweet' });
+        } else {
+          // Show notification that user needs to be on X.com
+          console.log('[Commands] Not on X.com, cannot toggle tweet');
+        }
+      });
+      break;
+  }
+});
+
+/**
  * Initialize on startup
  */
 initializeSettings();

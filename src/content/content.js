@@ -273,6 +273,7 @@
     // Listen for messages from popup
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       console.log('[X Bookmark] Received message:', message.action);
+
       if (message.action === 'refreshBookmarks') {
         // Update button states
         chrome.storage.local.get(['tweets'], (result) => {
@@ -288,7 +289,42 @@
             }
           });
         });
+      } else if (message.action === 'toggleCurrentTweet') {
+        // Find the current/centered tweet and toggle it
+        const tweets = document.querySelectorAll('[data-testid="tweet"]');
+        let currentTweet = null;
+
+        // Try to find the tweet that's most visible/centered
+        let maxVisibility = 0;
+        tweets.forEach(tweet => {
+          const rect = tweet.getBoundingClientRect();
+          const centerY = window.innerHeight / 2;
+          const distance = Math.abs(rect.top + rect.height / 2 - centerY);
+          const visibility = 1 - (distance / window.innerHeight);
+
+          if (visibility > maxVisibility) {
+            maxVisibility = visibility;
+            currentTweet = tweet;
+          }
+        });
+
+        if (currentTweet) {
+          const button = currentTweet.querySelector('.x-bookmark-btn');
+          if (button) {
+            button.click();
+            showNotification('已切换收藏状态');
+            sendResponse({ success: true });
+          } else {
+            showNotification('未找到收藏按钮');
+            sendResponse({ success: false });
+          }
+        } else {
+          showNotification('未找到推文');
+          sendResponse({ success: false });
+        }
       }
+
+      return true; // Keep message channel open
     });
   }
 
