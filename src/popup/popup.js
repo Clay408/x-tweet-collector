@@ -13,12 +13,17 @@
     backToListBtn: document.getElementById('backToListBtn'),
     copyReportBtn: document.getElementById('copyReportBtn'),
     settingsBtn: document.getElementById('settingsBtn'),
+    exportBtn: document.getElementById('exportBtn'),
     reportContent: document.getElementById('reportContent'),
     loadingOverlay: document.getElementById('loadingOverlay'),
-    toast: document.getElementById('toast')
+    toast: document.getElementById('toast'),
+    tagFilterList: document.getElementById('tagFilterList'),
+    clearTagFilter: document.getElementById('clearTagFilter')
   };
 
   let currentReport = '';
+  let currentTagFilter = 'all';
+  let allTags = new Set();
 
   /**
    * Initialize the popup
@@ -36,6 +41,74 @@
     elements.backToListBtn.addEventListener('click', showListView);
     elements.copyReportBtn.addEventListener('click', handleCopyReport);
     elements.settingsBtn.addEventListener('click', openSettings);
+    elements.exportBtn.addEventListener('click', handleExport);
+    elements.clearTagFilter.addEventListener('click', handleClearTagFilter);
+
+    // Tag filter delegation
+    elements.tagFilterList.addEventListener('click', handleTagFilterClick);
+  }
+
+  /**
+   * Handle tag filter click
+   */
+  function handleTagFilterClick(e) {
+    if (e.target.classList.contains('tag-btn')) {
+      const tag = e.target.getAttribute('data-tag');
+
+      // Update active state
+      document.querySelectorAll('.tag-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      e.target.classList.add('active');
+
+      currentTagFilter = tag;
+
+      // Show/hide clear button
+      elements.clearTagFilter.style.display = tag === 'all' ? 'none' : 'block';
+
+      // Reload tweets with filter
+      loadTweets();
+    }
+  }
+
+  /**
+   * Handle clear tag filter
+   */
+  function handleClearTagFilter() {
+    currentTagFilter = 'all';
+    document.querySelectorAll('.tag-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.querySelector('.tag-btn[data-tag="all"]').classList.add('active');
+    elements.clearTagFilter.style.display = 'none';
+    loadTweets();
+  }
+
+  /**
+   * Handle export
+   */
+  function handleExport() {
+    chrome.runtime.sendMessage({ action: 'getTweets' }, (tweets) => {
+      if (!tweets || tweets.length === 0) {
+        showToast('没有可导出的数据');
+        return;
+      }
+
+      // Export as JSON
+      const dataStr = JSON.stringify(tweets, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const timestamp = new Date().toISOString().slice(0, 10);
+      const filename = `x-tweets-${timestamp}.json`;
+
+      chrome.downloads.download({
+        url: url,
+        filename: filename,
+        saveAs: true
+      }, () => {
+        showToast('导出成功');
+      });
+    });
   }
 
   /**
@@ -43,8 +116,55 @@
    */
   function loadTweets() {
     chrome.runtime.sendMessage({ action: 'getTweets' }, (tweets) => {
-      displayTweets(tweets || []);
-      updateTweetCount(tweets?.length || 0);
+      // Collect all tags
+      allTags.clear();
+      tweets.forEach(tweet => {
+        if (tweet.tags && tweet.tags.length > 0) {
+          tweet.tags.forEach(tag => allTags.add(tag));
+        }
+      });
+
+      // Update tag filter UI
+      updateTagFilter();
+
+      // Filter tweets by selected tag
+      let filteredTweets = tweets || [];
+      if (currentTagFilter !== 'all') {
+        if (currentTagFilter === 'untagged') {
+          filteredTweets = tweets.filter(t => !t.tags || t.tags.length === 0);
+        } else {
+          filteredTweets = tweets.filter(t =>
+            t.tags && t.tags.includes(currentTagFilter)
+          );
+        }
+      }
+
+      displayTweets(filteredTweets);
+      updateTweetCount(filteredTweets.length, tweets?.length || 0);
+    });
+  }
+
+  /**
+   * Update tag filter UI
+   */
+  function updateTagFilter() {
+    // Keep "全部" and "未标签" buttons
+    const staticButtons = elements.tagFilterList.querySelectorAll('[data-tag="all"], [data-tag="untagged"]');
+    elements.tagFilterList.innerHTML = '';
+    staticButtons.forEach(btn => elements.tagFilterList.appendChild(btn));
+
+    // Add tag buttons
+    allTags.forEach(tag => {
+      const btn = document.createElement('button');
+      btn.className = 'tag-btn';
+      btn.setAttribute('data-tag', tag);
+      btn.textContent = tag;
+
+      if (currentTagFilter === tag) {
+        btn.classList.add('active');
+      }
+
+      elements.tagFilterList.appendChild(btn);
     });
   }
 
@@ -89,6 +209,11 @@
     // Attach link click listeners
     document.querySelectorAll('.tweet-link').forEach(link => {
       link.addEventListener('click', handleTweetLinkClick);
+    });
+
+    // Attach edit tags button listeners
+    document.querySelectorAll('.edit-tags-btn').forEach(btn => {
+      btn.addEventListener('click', handleEditTags);
     });
   }
 
@@ -152,6 +277,11 @@
       minute: '2-digit'
     });
 
+    const tags = tweet.tags || [];
+    const tagsHtml = tags.map(tag =>
+      `<span class="tweet-tag">${escapeHtml(tag)}</span>`
+    ).join('');
+
     return `
       <div class="tweet-card" data-tweet-id="${tweet.id}">
         <div class="tweet-header">
@@ -166,13 +296,21 @@
             ${escapeHtml(tweet.content)}
           </a>
         </div>
+        ${tagsHtml ? `<div class="tweet-tags">${tagsHtml}</div>` : ''}
         <div class="tweet-footer">
           <span class="save-time">收藏于 ${formatSaveTime(tweet.savedAt)}</span>
-          <button class="delete-btn" data-tweet-id="${tweet.id}" title="删除">
-            <svg viewBox="0 0 24 24" width="16" height="16">
-              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-            </svg>
-          </button>
+          <div class="tweet-actions">
+            <button class="edit-tags-btn" data-tweet-id="${tweet.id}" title="编辑标签">
+              <svg viewBox="0 0 24 24" width="14" height="14">
+                <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+              </svg>
+            </button>
+            <button class="delete-btn" data-tweet-id="${tweet.id}" title="删除">
+              <svg viewBox="0 0 24 24" width="16" height="16">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -242,6 +380,43 @@
     e.preventDefault();
     const url = e.currentTarget.getAttribute('data-url');
     chrome.tabs.create({ url });
+  }
+
+  /**
+   * Handle edit tags
+   */
+  function handleEditTags(e) {
+    const btn = e.currentTarget;
+    const tweetId = btn.getAttribute('data-tweet-id');
+    const card = btn.closest('.tweet-card');
+
+    chrome.runtime.sendMessage({ action: 'getTweets' }, (tweets) => {
+      const tweet = tweets.find(t => t.id === tweetId);
+      if (!tweet) return;
+
+      const currentTags = tweet.tags || [];
+      const newTags = prompt('输入标签，用逗号分隔:', currentTags.join(', '));
+
+      if (newTags !== null) {
+        const tagsArray = newTags
+          .split(',')
+          .map(t => t.trim())
+          .filter(t => t.length > 0);
+
+        chrome.runtime.sendMessage({
+          action: 'updateTweetTags',
+          tweetId: tweetId,
+          tags: tagsArray
+        }, (response) => {
+          if (response.success) {
+            loadTweets();
+            showToast('标签已更新');
+          } else {
+            showToast('更新失败');
+          }
+        });
+      }
+    });
   }
 
   /**
@@ -324,8 +499,12 @@
   /**
    * Update tweet count
    */
-  function updateTweetCount(count) {
-    elements.tweetCount.textContent = `${count} 条收藏`;
+  function updateTweetCount(count, total) {
+    if (currentTagFilter === 'all') {
+      elements.tweetCount.textContent = `${count} 条收藏`;
+    } else {
+      elements.tweetCount.textContent = `${count} / ${total} 条收藏`;
+    }
   }
 
   /**

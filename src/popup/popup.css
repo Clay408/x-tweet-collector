@@ -420,3 +420,115 @@ body {
 .report-content::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
 }
+
+/* Tag Filter */
+.tag-filter {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-color);
+}
+
+.tag-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tag-filter-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-btn {
+  padding: 4px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  background: white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.tag-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.tag-btn.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.btn-text {
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-text:hover {
+  text-decoration: underline;
+}
+
+/* Tweet Tags */
+.tweet-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.tweet-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(29, 155, 240, 0.1);
+  color: var(--primary-color);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Tweet Actions */
+.tweet-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.edit-tags-btn {
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-tags-btn:hover {
+  background: rgba(29, 155, 240, 0.1);
+  color: var(--primary-color);
+}
+
+.edit-tags-btn svg {
+  fill: currentColor;
+}

@@ -278,6 +278,27 @@ async function deleteTweet(tweetId) {
 }
 
 /**
+ * Update tweet tags
+ */
+async function updateTweetTags(tweetId, tags) {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['tweets'], (result) => {
+      const tweets = result.tweets || [];
+      const tweetIndex = tweets.findIndex(t => t.id === tweetId);
+
+      if (tweetIndex >= 0) {
+        tweets[tweetIndex].tags = tags;
+        chrome.storage.local.set({ tweets }, () => {
+          resolve({ success: true });
+        });
+      } else {
+        resolve({ success: false, error: '推文不存在' });
+      }
+    });
+  });
+}
+
+/**
  * Handle messages from popup and content scripts
  */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -327,6 +348,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     case 'deleteTweet':
       deleteTweet(message.tweetId).then(sendResponse);
+      return true;
+
+    case 'updateTweetTags':
+      updateTweetTags(message.tweetId, message.tags).then(sendResponse);
       return true;
 
     case 'getSettings':
