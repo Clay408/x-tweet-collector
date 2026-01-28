@@ -15,6 +15,22 @@
   --border-color: rgb(239, 243, 244);
   --danger-color: rgb(244, 33, 46);
   --success-color: rgb(0, 186, 124);
+  --card-bg: #ffffff;
+  --input-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #000000;
+    --text-color: #e7e9ea;
+    --text-secondary: #71767b;
+    --border-color: #2f3336;
+    --card-bg: #16181c;
+    --input-bg: #202327;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+  }
 }
 
 body {
@@ -57,7 +73,7 @@ body {
 
 /* Form */
 .settings-form {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 24px;
@@ -214,7 +230,7 @@ body {
 
 /* Presets */
 .presets {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 24px;
@@ -239,7 +255,7 @@ body {
   padding: 12px 20px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: white;
+  background: var(--card-bg);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -261,7 +277,7 @@ body {
 
 /* Info */
 .info {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 24px;
@@ -289,13 +305,13 @@ body {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  background: rgb(15, 20, 25);
-  color: white;
+  background: var(--text-color);
+  color: var(--bg-color);
   padding: 12px 24px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--shadow-color);
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.3s ease;

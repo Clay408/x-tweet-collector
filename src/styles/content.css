@@ -61,6 +61,14 @@
   z-index: 1000;
 }
 
+/* Dark mode tooltip adjustment */
+@media (prefers-color-scheme: dark) {
+  .x-bookmark-btn::after {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+  }
+}
+
 .x-bookmark-btn:hover::after {
   opacity: 1;
   transform: translateX(-50%) scale(1);

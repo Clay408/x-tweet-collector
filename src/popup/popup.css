@@ -15,6 +15,26 @@
   --border-color: rgb(239, 243, 244);
   --danger-color: rgb(244, 33, 46);
   --success-color: rgb(0, 186, 124);
+  --card-bg: #ffffff;
+  --input-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #000000;
+    --text-color: #e7e9ea;
+    --text-secondary: #71767b;
+    --border-color: #2f3336;
+    --card-bg: #16181c;
+    --input-bg: #202327;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+  }
+
+  body {
+    background: var(--bg-color);
+  }
 }
 
 body {
@@ -186,7 +206,7 @@ body {
 
 /* Tweet Card */
 .tweet-card {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 12px;
@@ -195,7 +215,7 @@ body {
 }
 
 .tweet-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px var(--shadow-color);
 }
 
 .tweet-header {
@@ -453,7 +473,7 @@ body {
   padding: 4px 10px;
   border: 1px solid var(--border-color);
   border-radius: 9999px;
-  background: white;
+  background: var(--card-bg);
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
