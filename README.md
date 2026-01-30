@@ -1,6 +1,15 @@
+<div align="center">
+
+<img src="icons/icon128.png" alt="X推文收藏助手" width="128" height="128">
+
 # X推文收藏助手 Chrome插件
 
 一个用于收藏X.com（Twitter）推文并使用AI生成日报的Chrome浏览器扩展。
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green.svg)](https://github.com/Clay408/x-tweet-collector)
+
+</div>
 
 ## 功能特性
 
