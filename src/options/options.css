@@ -275,6 +275,16 @@ body {
   fill: var(--primary-color);
 }
 
+.preset-btn.active {
+  border-color: var(--primary-color);
+  background: rgba(29, 155, 240, 0.1);
+  color: var(--primary-color);
+}
+
+.preset-btn.active svg {
+  fill: var(--primary-color);
+}
+
 /* Info */
 .info {
   background: var(--card-bg);

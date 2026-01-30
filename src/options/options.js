@@ -266,6 +266,12 @@
     const config = presets[preset];
 
     if (config) {
+      // 移除所有按钮的选中状态
+      elements.presetBtns.forEach(b => b.classList.remove('active'));
+
+      // 添加当前按钮的选中状态
+      btn.classList.add('active');
+
       elements.apiEndpoint.value = config.apiEndpoint;
       elements.model.value = config.model;
       elements.systemPrompt.value = config.systemPrompt;
