@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 深蓝到紫色渐变背景 -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="50%" stop-color="#4c1d95" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+
+    <!-- 淡入动画 -->
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .icon-container {
+        animation: fadeIn 0.5s ease-out forwards;
+        transform-origin: center center;
+      }
+
+      /* 神经网络节点脉冲动画 */
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 0.6;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+      }
+
+      .node {
+        animation: pulse 2s ease-in-out infinite;
+        transform-origin: center center;
+      }
+
+      .node-delay-1 {
+        animation-delay: 0s;
+      }
+
+      .node-delay-2 {
+        animation-delay: 0.3s;
+      }
+
+      .node-delay-3 {
+        animation-delay: 0.6s;
+      }
+    </style>
+  </defs>
+
+  <!-- 圆角矩形背景，带淡入动画 -->
+  <g class="icon-container">
+    <rect x="0" y="0" width="128" height="128" rx="24" ry="24" fill="url(#bgGradient)" />
+
+    <!-- 白色 X 标志 (Twitter/X 风格) -->
+    <g transform="translate(64, 50)" fill="#ffffff">
+      <path d="M-28,-28 L-8,-28 L4,-10 L20,-28 L28,-28 L10,-4 L28,28 L8,28 L-6,8 L-24,28 L-32,28 L-10,4 Z" />
+    </g>
+
+    <!-- 神经网络节点图案 (底部装饰，代表 AI) -->
+    <g transform="translate(64, 98)" opacity="0.6">
+      <!-- 中心节点 -->
+      <circle class="node node-delay-1" cx="0" cy="0" r="5" fill="#a78bfa" />
+      <!-- 左侧节点 -->
+      <circle class="node node-delay-2" cx="-15" cy="0" r="4" fill="#a78bfa" />
+      <!-- 右侧节点 -->
+      <circle class="node node-delay-3" cx="15" cy="0" r="4" fill="#a78bfa" />
+      <!-- 上方节点 -->
+      <circle class="node node-delay-2" cx="0" cy="-12" r="3.5" fill="#a78bfa" />
+      <!-- 下方节点 -->
+      <circle class="node node-delay-3" cx="0" cy="12" r="3.5" fill="#a78bfa" />
+
+      <!-- 连接线 -->
+      <g stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round">
+        <line x1="-15" y1="0" x2="0" y2="0" />
+        <line x1="15" y1="0" x2="0" y2="0" />
+        <line x1="0" y1="-12" x2="0" y2="0" />
+        <line x1="0" y1="12" x2="0" y2="0" />
+      </g>
+    </g>
+  </g>
+</svg>
