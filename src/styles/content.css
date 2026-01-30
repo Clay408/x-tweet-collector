@@ -16,6 +16,8 @@
   min-width: 34px;
   min-height: 34px;
   flex-shrink: 0;
+  z-index: 2147483647;
+  overflow: visible !important;
 }
 
 .x-bookmark-btn:hover {
@@ -46,9 +48,9 @@
 .x-bookmark-btn::after {
   content: attr(aria-label);
   position: absolute;
-  bottom: -32px;
+  bottom: 100%;
   left: 50%;
-  transform: translateX(-50%) scale(0.8);
+  transform: translateX(-50%) scale(0.8) translateZ(0);
   background-color: rgb(15, 20, 25);
   color: white;
   padding: 6px 12px;
@@ -58,7 +60,14 @@
   opacity: 0;
   pointer-events: none;
   transition: all 0.2s ease;
-  z-index: 1000;
+  z-index: 2147483647;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  word-break: keep-all;
+  font-weight: 500;
 }
 
 /* Dark mode tooltip adjustment */
@@ -71,7 +80,7 @@
 
 .x-bookmark-btn:hover::after {
   opacity: 1;
-  transform: translateX(-50%) scale(1);
+  transform: translateX(-50%) scale(1) translateZ(0);
 }
 
 /* Notification */
